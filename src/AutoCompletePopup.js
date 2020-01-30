@@ -16,13 +16,13 @@ const AutoCompletePopup = (props) => {
                                 <div
                                     className={styles.item}
                                     key={idx}
-                                    onClick={()=>props.select(item.name)}
+                                    onClick={()=>props.select(item.name) }
+
                                 >
                                     {item.name}
                                 </div>
                             );
                         })}
-                        {/*{!props.items.item && <div className="warning">Location not found...</div>}*/}
                     </div>
                 </div>
             </div>

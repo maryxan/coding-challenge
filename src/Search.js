@@ -17,9 +17,6 @@ class Search extends React.Component {
                     <h5>What place are you looking for?</h5>
 
                 </Row>
-                {/*<Row className="justify-content-around">*/}
-                {/*    <h4>What place are you looking for?</h4><br/>*/}
-                {/*</Row>*/}
                 <Row className="justify-content-center">
                     <SearchBar/>
                 </Row>

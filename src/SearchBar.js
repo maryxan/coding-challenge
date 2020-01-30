@@ -9,20 +9,21 @@ class SearchBar extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            categories: [],
-            categoryvalue : '',
-            isCategoryPopupOpen : false,
+            locations: [],
+            inputvalue : '',
+            isPopupOpen : false,
             language : '',
             isfound : ''
         }
+        this.hidePopup=this.hidePopup.bind(this);
 
     }
 
-    checkLang(categoryvalue){
+    checkLang(inputvalue){
         const englishpattern = /^[A-Za-z]*/;
         const elpattern = /^[α-ωΑ-Ω-Ωάέήίύώόϊϋΐΰ]*$/;
 
-        if (elpattern.test(categoryvalue)){
+        if (elpattern.test(inputvalue)){
             this.state.language = 'el'
             console.log(this.state.language)
         }else {
@@ -32,7 +33,7 @@ class SearchBar extends React.Component{
     }
 
     handleClick() {
-        window.open("https://www.google.com/search?q="+this.state.categoryvalue+"",'_blank');
+        window.open("https://www.google.com/search?q="+this.state.inputvalue+"",'_blank');
     }
 
     inputChangedHandler(event, field) {
@@ -46,32 +47,37 @@ class SearchBar extends React.Component{
             })
         )
 
-        if(field === "categoryvalue") {
+        if(field === "inputvalue") {
             this.checkLang(v);
-            this.categoriesGet(v);
+            this.locationsGet(v);
 
         }
 
     }
 
 
-    categoriesGet(value){
+    locationsGet(value){
         if(value===''){
-            this.hideCategoryPopup();
+            this.hidePopup();
+            return;
+        }
+        if(this.state.inputvalue.length === 0){
+            this.hidePopup();
             return;
         }
 
         setTimeout(() => {
         $.ajax({
-            url: "http://35.180.182.8/search?keywords="+value+"&language="+this.state.language+"&limit=5",
+            url: "http://35.180.182.8/search?keywords="+value+"&language="+this.state.language+"",
             dataType: 'json',
+            contentType: "application/json",
             type: 'GET'
         })
         .then(json => {
             console.log("Ajax success!");
             console.log(json)
-            this.setState({categories:json.entries});
-            this.showCategoryPopup();
+            this.setState({locations:json.entries});
+            this.showPopup();
             console.log("Ajax end");
             this.state.isfound = 1;
         })
@@ -81,33 +87,30 @@ class SearchBar extends React.Component{
         }, 2000);
     }
 
-    categorySelectHandler(value){
-        console.log("categorySelectHandler start");
+    SelectHandler(value){
+        console.log("SelectHandler start");
         console.log(this.state);
-        this.setState({categoryvalue:value});
-        this.hideCategoryPopup();
+        this.setState({inputvalue:value});
+        this.hidePopup();
         console.log(this.state);
-        console.log("categorySelectHandler end");
+        console.log("SelectHandler end");
     }
 
 
-    showCategoryPopup() {
+    showPopup() {
         setTimeout(() => {
 
-            this.setState({ isCategoryPopupOpen: true });
-        }, 3000);
+            this.setState({ isPopupOpen: true });
+        }, 1000);
     }
 
-    hideCategoryPopup() {
-        this.setState({ isCategoryPopupOpen: false });
+    hidePopup() {
+        this.setState({ isPopupOpen: false });
 
     }
 
     render(){
-
-
         return(
-
             <Form>
             <Row className="d-flex justify-content-center align-items-start" >
 
@@ -121,23 +124,25 @@ class SearchBar extends React.Component{
                                 className="form-control form-control-lg"
                                 placeholder="Please type your search term.."
                                 style={{ marginBottom:" 7px"}}
-                                value={this.state.categoryvalue}
-                                onChange={(event)=> this.inputChangedHandler(event, "categoryvalue")}
-                                onClick={() => {if(this.state.categoryvalue!==''){ this.showCategoryPopup()}}}
+                                value={this.state.inputvalue}
+                                onChange={(event)=> this.inputChangedHandler(event, "inputvalue")}
+                                onClick={() => {if(this.state.inputvalue!==''){ this.showPopup()}}}
                             />
 
                             <AutoCompletePopup
-                                isOpen={this.state.isCategoryPopupOpen}
-                                items = {this.state.categories}
-                                select={(value) => this.categorySelectHandler(value)}
+                                isOpen={this.state.isPopupOpen}
+                                items = {this.state.locations}
+                                select={(value) => this.SelectHandler(value)}
+                                onRequestClose={this.closePopup}
+
                             />
                         </div>
                     </div>
                 </div>
             </Row>
             <Row className="justify-content-start">
-                <Button  disabled={!this.state.categories.item} onClick={this.handleClick.bind(this)}>Click to search</Button>
-                <Button variant="outline-secondary">haaa</Button>
+                {/*<Button  disabled={!this.state.locations.items} onClick={this.handleClick.bind(this)}>Click to search</Button>*/}
+                <Button disabled={!this.state.locations.length} onClick={this.handleClick.bind(this)}>Click to search</Button>
             </Row>
          </Form>
         )
