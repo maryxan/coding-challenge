@@ -1,0 +1,14 @@
+.searchpage {
+
+    padding-top: 5vh;
+    display: flex;
+    justify-content: start;
+}
+    .cont{
+        padding-top: 500vh;
+    }
+
+
+.myinpt{
+    width: 5px;
+}
