@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './Searchbar.module.scss';
 
 const AutoCompletePopup = (props) => {
-
     if (!props.isOpen) return null;
     return (
         <div className={styles.popupParent}>

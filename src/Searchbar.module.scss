@@ -4,7 +4,6 @@ $solid-color: rgba(15, 15, 15, 0.2);
 $result-text-color: #424444;
 
 
-
 .searchcontainer{
   width: 600px;
 
@@ -24,20 +23,10 @@ $result-text-color: #424444;
     width: 75%;
   }
 
-  /* Medium Devices, Desktops */
   @media only screen and (min-width : 992px) {
     width: 50%;
   }
 
-  //@media only screen and (max-width : 300px) {
-  //  width: 30%;
-  //}
-
-  //.title {
-  //    margin-bottom: 1em;
-  //    font-size: 27px;
-  //    color: $base-color;
-  //  }
 
   .page{
     margin-right: 40vw;
