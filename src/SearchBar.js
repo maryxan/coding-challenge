@@ -8,15 +8,13 @@ import styles from './Searchbar.module.scss';
 class SearchBar extends React.Component{
     constructor(props){
         super(props);
+
         this.state = {
             locations: [],
             inputvalue : '',
             isPopupOpen : false,
-            language : '',
-            isfound : ''
+            language : ''
         }
-        this.hidePopup=this.hidePopup.bind(this);
-
     }
 
     checkLang(inputvalue){
@@ -55,7 +53,6 @@ class SearchBar extends React.Component{
 
     }
 
-
     locationsGet(value){
         if(value===''){
             this.hidePopup();
@@ -79,7 +76,6 @@ class SearchBar extends React.Component{
             this.setState({locations:json.entries});
             this.showPopup();
             console.log("Ajax end");
-            this.state.isfound = 1;
         })
         .fail(err=>{
             console.log(err)
@@ -133,8 +129,6 @@ class SearchBar extends React.Component{
                                 isOpen={this.state.isPopupOpen}
                                 items = {this.state.locations}
                                 select={(value) => this.SelectHandler(value)}
-                                onRequestClose={this.closePopup}
-
                             />
                         </div>
                     </div>

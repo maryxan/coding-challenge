@@ -17,7 +17,6 @@ const AutoCompletePopup = (props) => {
                                     className={styles.item}
                                     key={idx}
                                     onClick={()=>props.select(item.name) }
-
                                 >
                                     {item.name}
                                 </div>
